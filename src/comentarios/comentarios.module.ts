@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ComentariosService } from './comentarios.service';
 import { ComentariosController } from './comentarios.controller';
-import { CurtidasModule } from './curtidas-/curtidas-.module';
+import { ComentarioRepository } from './repositories/comentario.repository';
+import { PrismaService } from 'src/prisma/prisma.servise';
 
 @Module({
   controllers: [ComentariosController],
-  providers: [ComentariosService],
-  imports: [CurtidasModule],
+  providers: [ComentariosService,ComentarioRepository,PrismaService],
 })
 export class ComentariosModule {}

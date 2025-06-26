@@ -2,7 +2,9 @@ import { PrismaService } from 'src/prisma/prisma.servise';
 import { PostagenEntity } from '../entities/postagen.entity';
 import { CreatePostagenDto } from '../dto/create-postagen.dto';
 import { UpdatePostagenDto } from '../dto/update-postagen.dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class PostagenRepository {
   constructor(private readonly prismaRepository: PrismaService) {}
 

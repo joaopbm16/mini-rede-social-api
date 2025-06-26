@@ -1,26 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePostagenDto } from './dto/create-postagen.dto';
 import { UpdatePostagenDto } from './dto/update-postagen.dto';
+import { PostagenRepository } from './repositories/postagem.repository';
 
 @Injectable()
 export class PostagensService {
-  create(createPostagenDto: CreatePostagenDto) {
-    return 'This action adds a new postagen';
+  constructor(private readonly repository: PostagenRepository) {}
+
+
+  async create(createPostagenDto: CreatePostagenDto) {
+    return await this.repository.create(createPostagenDto);
   }
 
-  findAll() {
-    return `This action returns all postagens`;
+  async findAll() {
+    return await this.repository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} postagen`;
+  async findOne(id: number) {
+    return await this.repository.findOne(id);
   }
 
-  update(id: number, updatePostagenDto: UpdatePostagenDto) {
-    return `This action updates a #${id} postagen`;
+  async update(id: number, updatePostagenDto: UpdatePostagenDto) {
+    return await this.repository.update(id, updatePostagenDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} postagen`;
+  async remove(id: number) {
+    return await this.repository.remove(id);
   }
 }

@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCurtidaDto } from './dto/create-curtida.dto';
 import { UpdateCurtidaDto } from './dto/update-curtida.dto';
+import { CurtidaRepository } from './repositories/curtida.repository';
 
 @Injectable()
 export class CurtidasService {
-  create(createCurtidaDto: CreateCurtidaDto) {
-    return 'This action adds a new curtida';
+  constructor(private readonly repository: CurtidaRepository) {}
+
+  async create(createCurtidaDto: CreateCurtidaDto) {
+    return await this.repository.create(createCurtidaDto);
   }
 
-  findAll() {
-    return `This action returns all curtidas`;
+  async findAll() {
+    return await this.repository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} curtida`;
+  async findOne(id: number) {
+    return await this.repository.findOne(id);
   }
 
-  update(id: number, updateCurtidaDto: UpdateCurtidaDto) {
-    return `This action updates a #${id} curtida`;
+  async update(id: number, updateCurtidaDto: UpdateCurtidaDto) {
+    return await this.repository.update(id, updateCurtidaDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} curtida`;
+  async remove(id: number) {
+    return await this.repository.remove(id);
   }
 }
