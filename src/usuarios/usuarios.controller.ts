@@ -26,17 +26,17 @@ export class UsuariosController {
     return this.usuariosService.findAll();
   }
 
-  @Get('findAllByCPF')
-  findAllByCPF() {
-    console.log('get2');
-    return this.usuariosService.findAll();
-  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usuariosService.findOne(+id);
   }
 
+  @Get(':email/:pass')
+  findOneByEmailPass(@Param('email') email: string , @Param('pass') senha: string) {
+    return this.usuariosService.findOneByEmailPass(email, senha);
+  }
+  
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuariosService.update(+id, updateUsuarioDto);
