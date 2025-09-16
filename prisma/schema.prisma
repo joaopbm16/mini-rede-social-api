@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuarios {
+  id Int @id @default(autoincrement())
+  nome_usua String
+  email_usua String @unique
+  senha_usua String
+  criacao_usua DateTime @default(now())
+
+  Postagens Postagens[]
+  CurtidasPostagens CurtidasPostagens[]
+  Comentarios Comentarios[]
+  CurtidasComentarios CurtidasComentarios[]
+  Perfil Perfil[]
+  
+  @@map("Usuarios")
+}
+
+model Postagens {
+  id Int @id @default(autoincrement())
+  usuario_id Int
+  mensagem_post String
+  criacao_post DateTime @default(now())
+  
+  CurtidasPostagens CurtidasPostagens[]
+  Comentarios Comentarios[]
+
+  usuario Usuarios @relation(fields: [usuario_id], references: [id])
+  @@map("Postagens")
+}
+
+model CurtidasPostagens {
+  id Int @id @default(autoincrement())
+  usuario_id Int
+  postagem_id Int
+  criacao_cupo DateTime @default(now())
+
+  usuario Usuarios @relation(fields: [usuario_id], references: [id])
+  postagem Postagens @relation(fields: [postagem_id], references: [id])
+  @@unique([usuario_id, postagem_id])
+  @@map("CurtidasPostagens")
+}
+
+model Comentarios {
+  id Int @id @default(autoincrement())
+  usuario_id Int
+  postagem_id Int
+  mensagem_come String
+  criacao_come DateTime @default(now())
+
+  CurtidasComentarios CurtidasComentarios[]
+
+  usuario Usuarios @relation(fields: [usuario_id], references: [id])
+  postagem Postagens @relation(fields: [postagem_id], references: [id])
+  @@map("Comentarios")
+}
+
+model CurtidasComentarios {
+  id Int @id @default(autoincrement())
+  usuario_id Int
+  comentario_id Int
+  criacao_cuco DateTime @default(now())
+
+  usuario Usuarios @relation(fields: [usuario_id], references: [id])
+  comentario Comentarios @relation(fields: [comentario_id], references: [id])
+  @@unique([usuario_id, comentario_id])
+  @@map("CurtidasComentarios")
+}
+
+model Perfil {
+  id Int @id @default(autoincrement())
+  usuario_id Int
+  nome_per String
+
+  CRUD CRUD[]
+
+  usuario Usuarios @relation(fields: [usuario_id], references: [id])
+  @@map("Perfil")
+}
+
+model CRUD {
+  id Int @id @default(autoincrement())
+  create Boolean @default(false)
+  update Boolean @default(false)
+  delete Boolean @default(false)
+  view Boolean @default(true)
+  id_perfil Int
+  nome_tabela String
+
+  perfil Perfil @relation(fields: [id_perfil], references: [id])
+  @@map("CRUD")
+}
